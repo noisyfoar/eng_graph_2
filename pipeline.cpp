@@ -67,5 +67,9 @@ const Matrix4f* Pipeline::GetTrans()
     InitPerspectiveProj(PersProjTrans);
 
     m_transformation = PersProjTrans * TranslationTrans * RotateTrans * ScaleTrans;
+    /*
+    Мы ставим матрицу перспективы первой в череде умножения матриц,
+    которые генерирует итоговое преобразование. 
+    */
     return &m_transformation;
 }
