@@ -7,7 +7,7 @@ Vector3f Vector3f::Cross(const Vector3f& v) const
     const float _z = x * v.y - y * v.x;
 
     return Vector3f(_x, _y, _z);
-}
+}//возвращает вектор, перпендикулярный плоскости, определяемой исходными векторами
 
 Vector3f& Vector3f::Normalize()
 {
@@ -18,7 +18,10 @@ Vector3f& Vector3f::Normalize()
     z /= Length;
 
     return *this;
-}
+}/*
+ Для генерации матрицы UVN мы должны сделать вектора единичной длины. 
+ Это называется 'нормировать вектор', заключается в том, что все компоненты вектора делятся на его длину.
+ */
 
 void Matrix4f::InitScaleTransform(float ScaleX, float ScaleY, float ScaleZ)
 {
@@ -77,6 +80,14 @@ void Matrix4f::InitCameraTransform(const Vector3f& Target, const Vector3f& Up)
     m[2][0] = N.x;   m[2][1] = N.y;   m[2][2] = N.z;   m[2][3] = 0.0f;
     m[3][0] = 0.0f;  m[3][1] = 0.0f;  m[3][2] = 0.0f;  m[3][3] = 1.0f;
 }
+/*
+Эта функция генерирует преобразования камеры, которые позднее будут использованы конвейером. 
+Векторы U,V и N высчитываются и заносятся в ряды матрицы. 
+Так как вектор позиции будет умножаться справа (в виде столбца), 
+то мы получим скалярное произведение между этим вектором и векторами U,V и N. 
+Это вычислит значения 3 скалярных проекций, 
+которые станут XYZ значениями позиции в пространстве экрана.
+*/
 
 void Matrix4f::InitPersProjTransform(float FOV, float Width, float Height, float zNear, float zFar)
 {
